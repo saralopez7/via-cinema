@@ -1,10 +1,17 @@
 ﻿@model VIACinemaApp.Models.MovieGenreViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Billboard";
 }
+<environment include="Development">
+    <link href="~/js/site.js" />
+    <link rel="stylesheet" href="~/css/availableMovies.css" />
+</environment>
+<h2>Billboard</h2>
 
-<h2>Index</h2>
+<div id="tab"></div>
+<div id="tabContainer"></div>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>

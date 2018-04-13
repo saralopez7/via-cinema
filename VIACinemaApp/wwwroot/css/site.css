@@ -9,6 +9,12 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+.nav navbar-nav-1 {
+    text-align:center;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
 
 /* Carousel */
 .carousel-caption p {
@@ -32,4 +38,6 @@
     .carousel-caption {
         display: none;
     }
+
+
 }

@@ -1,0 +1,44 @@
+﻿@if (ViewBag.AvailableMovies != null)
+{
+    <table class="table" id="availableMovies">
+        <thead>
+            <tr>
+                <th>
+                    MovieTitle
+                </th>
+                <th>
+                    AvailableDate
+                </th>
+                <th>
+                    AvailableSeats
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in ViewBag.AvailableMovies.Movies)
+            {
+                <tr>
+
+                    <td>
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">
+                            @item.Movie.MovieTitle
+                        </a>
+                    </td>
+                    <td>
+                        @item.AvailableDate
+                    </td>
+                    <td>
+                        @item.AvailableSeats
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}

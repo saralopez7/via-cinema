@@ -1,0 +1,69 @@
+﻿#holder {
+    height: 200px;
+    width: 550px;
+    background-color: #F5F5F5;
+    border: 1px solid #A4A4A4;
+    margin-left: 10px;
+}
+
+#place {
+    position: relative;
+    margin: 10px;
+}
+
+    #place a {
+        font-size: 0.6em;
+    }
+
+    #place li {
+        list-style: none outside none;
+        position: absolute;
+    }
+        #place li a {
+            text-align: center;
+            display: block;
+            padding-top:29%;
+        }
+            #place li a:hover {
+                text-decoration: none;
+            }
+
+        #place li:hover {
+            background-color: yellow;
+        }
+
+    #place .seat {
+        background-color: lightblue;
+        height: 33px;
+        width: 33px;
+        display: block;
+    }
+
+    #place .bookedSeat {
+        background-color: lightcoral;
+    }
+
+    #place .selectingSeat {
+        background-color: lightgreen;
+    }
+
+    #place .row-3, #place .row-4 {
+        margin-top: 10px;
+    }
+
+#seatDescription li {
+    vertical-align: middle;
+    list-style: none outside ;
+    margin:10px;
+    padding: 20px;
+    float: left;
+}
+
+#btnShowSelectedSeats, #btnShowAllSelected {
+    background-color: #ddd;
+    border: 1px solid #ccc ;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    margin-top:10px;
+}

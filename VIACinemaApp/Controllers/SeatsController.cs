@@ -149,7 +149,14 @@ namespace VIACinemaApp.Controllers
             return _context.Seat.Any(e => e.Id == id);
         }
 
-       
+       public IActionResult GetSeats()
+        {
+            var seats = _context.Seat.Select(x => x.Id).ToList();
+
+            ViewBag.Seats = seats;
+
+            return PartialView("GetSeatsNum");
+        }
 
     }
 }

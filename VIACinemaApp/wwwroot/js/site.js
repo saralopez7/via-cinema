@@ -2,10 +2,6 @@
 
 openDate();
 
-function hasClass(elem, cls) {
-    return (" " + elem.className + " ").indexOf(" " + cls + " ") > -1;
-}
-
 // Open selected date window
 function openDate() {
     getDates();
@@ -13,32 +9,33 @@ function openDate() {
     var i = 0;
 
     //Create buttons
-    dates.forEach((date => {
+    dates.forEach(date => {
         var button = document.createElement('button');
         button.setAttribute('class', 'tablinks');
         button.onclick = function () {
-            var map = new Map();
             tabcontent = Array.prototype.slice.call(document.getElementsByClassName("tabcontent"));
             links = Array.prototype.slice.call(document.getElementsByClassName("tablinks"));
-
-            tabcontent.forEach((tab => { // display only one date content at a time
-                links.forEach((link => {
-                    if (link.innerHTML == tab.id) link.className = 'tablinks';
-                }));
+            // display only one tab content at a time and change className to change focus on selected item
+            tabcontent.forEach(tab => { // display only one date content at a time
+                links.forEach(link => {
+                    if (link.innerHTML === tab.id) link.className = 'tablinks';
+                });
                 tab.style.display = "none";
-            }));
+            });
+            sendDateToController(date);
+
             button.className += " active";
             createTabContents(date);
             document.getElementById(formatDate(date)).style.display = "block";
-        }
+        };
 
         button.innerHTML = formatDate(date);
 
-        if (i == 0) // set default open to the first button
+        if (i === 0) // set default open to the first button
             button.setAttribute('id', 'defaultOpen');
         i += 1;
         document.getElementById("tab").appendChild(button);
-    }));
+    });
 }
 
 // Get the element with id="defaultOpen" and click on it
@@ -48,8 +45,7 @@ function createTabContents(date) {
     var dateFormatted = formatDate(date);
     var division = document.createElement('div');
     division.setAttribute('class', 'tabcontent');
-    division.setAttribute('id', dateFormatted)
-    division.innerHTML = dateFormatted;
+    division.setAttribute('id', dateFormatted);
     document.getElementById("tabContainer").appendChild(division);
 }
 
@@ -74,4 +70,35 @@ function formatDate(date) {
         "Wednesday", "Thursday", "Friday", "Saturday"];
 
     return weekdays[date.getDay()] + ' ' + date.getDate() + ' ' + monthNames[date.getMonth()];
+}
+
+function sendDateToController(date) {
+    $.ajax({
+        type: 'post',
+        url: '/AvailableMovies/GetMovies',
+        datatype: "json",
+        data: { id: formatDate(date) },
+        error: function (result) {
+            alert('Something went wrong: ' + result.statusText);
+        },
+        success: function (response) {
+            document.getElementById(formatDate(date)).innerHTML = response;
+        }
+    });
+}
+
+function getMovie() {
+    var date = document.getElementById("date").value;
+    $.ajax({
+        type: 'post',
+        url: '/AvailableMovies/GetMovies',
+        datatype: "json",
+        data: { id: date },
+        error: function (result) {
+            alert('Error: ' + result.statusText);
+        },
+        success: function (response) {
+            document.getElementById("movies").innerHTML = response;
+        }
+    });
 }

@@ -33,3 +33,23 @@
     border: 1px solid #ccc;
     border-top: none;
 }
+
+input[type="submit"] {
+    background-color: #ddd;
+    border: 1px solid #ccc !important;
+    cursor: pointer;
+    padding: 10px 16px;
+    margin: 14px;
+}
+
+    input[type="submit"]:hover {
+        background-color: #ccc;
+    }
+
+input[type="date"] {
+    padding: 10px 10px;
+}
+
+#availableMovies {
+    margin-bottom: -8px;
+}

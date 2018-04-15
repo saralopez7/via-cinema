@@ -28,9 +28,10 @@ namespace VIACinemaApp.Controllers
                                             select m.MovieTitle;
 
             ICollection<AvailableMovies> availableMovies = _context.AvailableMovies.ToList();
-            foreach (var movie in availableMovies)
+            foreach (var availableMovie in availableMovies)
             {
-                movie.Movie = _context.Movie.FirstOrDefault(x => x.Id == movie.MovieId);
+                availableMovie.Movie = _context.Movie.FirstOrDefault(x => x.Id == availableMovie.MovieId);
+                availableMovie.AvailableSeats = _context.Seat.Count(x => x.MovieId == availableMovie.Id);
             }
 
             var movieGenreVm =
@@ -52,9 +53,10 @@ namespace VIACinemaApp.Controllers
                                             select m.MovieTitle;
 
             ICollection<AvailableMovies> availableMovies = _context.AvailableMovies.ToList();
-            foreach (var movie in availableMovies)
+            foreach (var availableMovie in availableMovies)
             {
-                movie.Movie = _context.Movie.FirstOrDefault(x => x.Id == movie.MovieId);
+                availableMovie.Movie = _context.Movie.FirstOrDefault(x => x.Id == availableMovie.MovieId);
+                availableMovie.AvailableSeats = _context.Seat.Count(x => x.MovieId == availableMovie.Id && x.Status == SeatStatus.Available);
             }
 
             if (!String.IsNullOrEmpty(id))

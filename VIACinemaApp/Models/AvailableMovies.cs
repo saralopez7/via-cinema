@@ -15,7 +15,7 @@ namespace VIACinemaApp.Models
         [DataType(DataType.Date)]
         public DateTime AvailableDate { get; set; }
 
-        public int AvailableSeats { get; set; }
+        public int? AvailableSeats { get; set; }
 
         public Movie Movie { get; set; }
     }

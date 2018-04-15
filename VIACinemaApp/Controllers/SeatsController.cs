@@ -49,7 +49,7 @@ namespace VIACinemaApp.Controllers
         }
 
         // POST: Seats/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,7 +81,7 @@ namespace VIACinemaApp.Controllers
         }
 
         // POST: Seats/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -149,14 +149,13 @@ namespace VIACinemaApp.Controllers
             return _context.Seat.Any(e => e.Id == id);
         }
 
-       public IActionResult GetSeats()
+        public IActionResult GetSeats()
         {
             var seats = _context.Seat.Select(x => x.Id).ToList();
 
             ViewBag.Seats = seats;
 
-            return PartialView("GetSeatsNum");
+            return PartialView("GetSeatNum");
         }
-
     }
 }

@@ -150,7 +150,6 @@ namespace VIACinemaApp.Controllers
         {
             var seats = _context.Seat.Select(x => x.SeatNumber).ToList();
 
-            ViewData["Seats"] = seats;
             ViewBag.Seats = seats;
 
             return PartialView("GetSeatNum");

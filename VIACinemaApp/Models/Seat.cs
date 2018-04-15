@@ -11,9 +11,6 @@ namespace VIACinemaApp.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Seat Satus")]
-        public SeatStatus Status { get; set; }
-
         public int Row { get; set; }
         public int Column { get; set; }
 

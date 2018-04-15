@@ -7,27 +7,45 @@
     seatHeight: 35,
     seatCss: 'seat',
     bookedSeatCss: 'bookedSeat',
+    reservedSestCss: 'reservedSeat',
     selectingSeatCss: 'selectingSeat'
 };
 init()
-function init() {
-    var reservedSeats = document.getElementsByName("seatsValueFromAjax")[0].value;
 
-    var str = [], seatNo, className;
-    for (i = 0; i < settings.rows; i++) {
-        for (j = 0; j < settings.cols; j++) {
-            seatNo = (i + j * settings.rows + 1);
-            className = settings.seatCss + ' ' + settings.rowCssPrefix + i.toString() + ' ' + settings.colCssPrefix + j.toString();
-            if (reservedSeats.includes(seatNo)) {
-                className += ' ' + settings.bookedSeatCss;
+function extractContent(s) {
+    var span = document.createElement('span');
+    span.innerHTML = s;
+    return span.textContent || span.innerText;
+};
+
+function init() {
+    var reservedSeats;
+    $.ajax({
+        type: 'post',
+        url: '/Seats/GetSeats',
+        error: function (result) {
+            alert('Error: ' + result.statusText);
+        },
+        success: function (response) {
+            reservedSeats = extractContent(response);
+
+            var str = [], seatNo, className;
+            for (i = 0; i < settings.rows; i++) {
+                for (j = 0; j < settings.cols; j++) {
+                    seatNo = (i + j * settings.rows + 1);
+                    className = settings.seatCss + ' ' + settings.rowCssPrefix + i.toString() + ' ' + settings.colCssPrefix + j.toString();
+                    if (reservedSeats.includes(seatNo)) {
+                        className += ' ' + settings.bookedSeatCss;
+                    }
+                    str.push('<li class="' + className + '"' +
+                        'style="top:' + (i * settings.seatHeight).toString() + 'px;left:' + (j * settings.seatWidth).toString() + 'px" onClick="setClick(\'' + className + '\')" />' +
+                        '<a title="' + seatNo + '">' + seatNo + '</a>' +
+                        '</li>');
+                }
             }
-            str.push('<li class="' + className + '"' +
-                'style="top:' + (i * settings.seatHeight).toString() + 'px;left:' + (j * settings.seatWidth).toString() + 'px" onClick="setClick(\'' + className + '\')" />' +
-                '<a title="' + seatNo + '">' + seatNo + '</a>' +
-                '</li>');
+            document.getElementById("place").innerHTML = str.join('');
         }
-    }
-    document.getElementById("place").innerHTML = str.join('');
+    });
 };
 
 function setClick(className) {

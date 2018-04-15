@@ -14,8 +14,10 @@ namespace VIACinemaApp.Models
         {
         }
 
-        public DbSet<VIACinemaApp.Models.Movie> Movie { get; set; }
+        public DbSet<Movie> Movie { get; set; }
 
-        public DbSet<VIACinemaApp.Models.AvailableMovies> AvailableMovies { get; set; }
+        public DbSet<AvailableMovies> AvailableMovies { get; set; }
+
+        public DbSet<VIACinemaApp.Models.Seat> Seat { get; set; }
     }
 }

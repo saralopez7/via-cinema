@@ -22,7 +22,7 @@ function openDate() {
                 });
                 tab.style.display = "none";
             });
-            sendDateToController(date);
+            sendDataToController(date);
 
             button.className += " active";
             createTabContents(date);
@@ -72,7 +72,7 @@ function formatDate(date) {
     return weekdays[date.getDay()] + ' ' + date.getDate() + ' ' + monthNames[date.getMonth()];
 }
 
-function sendDateToController(date) {
+function sendDataToController(date) {
     $.ajax({
         type: 'post',
         url: '/AvailableMovies/GetMovies',

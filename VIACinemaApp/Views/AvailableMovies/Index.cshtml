@@ -2,28 +2,19 @@
     ViewData["Title"] = "Billboard";
 }
 <environment include="Development">
-    <script src="@Url.Content("~/js/site.js")" type="text/javascript"></script>
+    <script src="~/js/site.js" type="text/javascript "> </script>
     <link rel="stylesheet" href="~/css/availableMovies.css" media="screen" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </environment>
 
-<h2>Billboard</h2>
+<h2 id="logo">Billboard</h2>
 
 <div id="tab"></div>
 
-<div id="tabContainer">
-</div>
-
+<div id="tabContainer"></div>
+<h1>Search by Date</h1>
 <p>
-    @*<select asp-for="MovieTitle" asp-items="Model.Titles">
-            <option value="">All</option>
-        </select>*@
-
     Date: <input type="date" name="id" id="date" placeholder="Please select a date">
     <button id="submit" onclick="getMovie()">Search</button>
 </p>
-
 <div id="movies"> </div>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>

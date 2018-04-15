@@ -1,16 +1,21 @@
-﻿@if (ViewBag.AvailableMovies != null)
+﻿<environment include="Development">
+    <link rel="stylesheet" href="~/css/availableMovies.css" media="screen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</environment>
+
+@if (ViewBag.AvailableMovies != null)
 {
     <table class="table" id="availableMovies">
         <thead>
             <tr>
                 <th>
-                    MovieTitle
+                    Movie Title
                 </th>
                 <th>
-                    AvailableDate
+                    Available Date
                 </th>
                 <th>
-                    AvailableSeats
+                    Available Seats
                 </th>
                 <th></th>
             </tr>

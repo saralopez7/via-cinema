@@ -9,12 +9,9 @@
     bookedSeatCss: 'bookedSeat',
     selectingSeatCss: 'selectingSeat'
 };
-sendSeatsToController();
-
-init();
+init()
 function init() {
-    var reservedSeats = [5,12];
-
+    var reservedSeats = document.getElementsByName("seatsValueFromAjax")[0].value;
 
     var str = [], seatNo, className;
     for (i = 0; i < settings.rows; i++) {
@@ -51,30 +48,11 @@ function showSeats() {
     alert(str.join(','));
 }
 
-function showNewSeats () {
+function showNewSeats() {
     var str = [], item;
     $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
         item = $(this).attr('title');
         str.push(item);
     });
     alert(str.join(','));
-}
-
-function sendSeatsToController() {
-
-    $.ajax({
-        type: 'post',
-        url: '/Seats/GetSeats',
-        datatype: "json",
-        error: function (result) {
-            alert('Something went wrong: ' + result.statusText);
-        },
-        success: function (response) {
-            receiveAjaxResponse(response);
-        }
-    });
-}
-
-function receiveAjaxResponse(response) {
-    alert(response);
 }

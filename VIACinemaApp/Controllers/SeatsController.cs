@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using VIACinemaApp.Models;
 
 namespace VIACinemaApp.Controllers
@@ -49,7 +46,7 @@ namespace VIACinemaApp.Controllers
         }
 
         // POST: Seats/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,7 +78,7 @@ namespace VIACinemaApp.Controllers
         }
 
         // POST: Seats/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -149,14 +146,14 @@ namespace VIACinemaApp.Controllers
             return _context.Seat.Any(e => e.Id == id);
         }
 
-       public IActionResult GetSeats()
+        public IActionResult GetSeats()
         {
-            var seats = _context.Seat.Select(x => x.Id).ToList();
+            var seats = _context.Seat.Select(x => x.SeatNumber).ToList();
 
+            ViewData["Seats"] = seats;
             ViewBag.Seats = seats;
 
-            return PartialView("GetSeatsNum");
+            return PartialView("GetSeatNum");
         }
-
     }
 }

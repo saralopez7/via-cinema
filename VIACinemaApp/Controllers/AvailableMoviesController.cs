@@ -12,6 +12,7 @@ namespace VIACinemaApp.Controllers
     public class AvailableMoviesController : Controller
     {
         private readonly VIACinemaAppContext _context;
+        private readonly int _totalNumberOfSeats = 75;
 
         public AvailableMoviesController(VIACinemaAppContext context)
         {
@@ -56,7 +57,7 @@ namespace VIACinemaApp.Controllers
             foreach (var availableMovie in availableMovies)
             {
                 availableMovie.Movie = _context.Movie.FirstOrDefault(x => x.Id == availableMovie.MovieId);
-                availableMovie.AvailableSeats = _context.Seat.Count(x => x.MovieId == availableMovie.Id);
+                availableMovie.AvailableSeats = _totalNumberOfSeats - _context.Seat.Count(x => x.MovieId == availableMovie.Id);
             }
 
             if (!String.IsNullOrEmpty(id))

@@ -19,7 +19,7 @@ namespace VIACinemaApp.Controllers
         // GET: Seats
         public async Task<IActionResult> Index(string id)
         {
-            if (!String.IsNullOrEmpty(id))
+            if (String.IsNullOrEmpty(id))
                 return View(await _context.Seat.ToListAsync());
             return View(await _context.Seat.Where(x => x.MovieId == Int32.Parse(id)).ToListAsync());
         }
@@ -147,15 +147,6 @@ namespace VIACinemaApp.Controllers
         private bool SeatExists(int id)
         {
             return _context.Seat.Any(e => e.Id == id);
-        }
-
-        public IActionResult GetSeats()
-        {
-            var seats = _context.Seat.Select(x => x.SeatNumber).ToList();
-
-            ViewBag.Seats = seats;
-
-            return PartialView("GetSeatNum");
         }
     }
 }

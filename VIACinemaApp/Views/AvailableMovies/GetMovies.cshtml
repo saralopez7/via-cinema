@@ -35,13 +35,9 @@
                         @item.AvailableDate
                     </td>
                     <td>
-                        <a asp-controller="Seats" asp-action="Index" asp-route-id="@item.MovieId">
+                        <a asp-controller="Seats" asp-action="Index" asp-route-id="@item.Id">
                             @item.AvailableSeats
                         </a>
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
 

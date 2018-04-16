@@ -50,7 +50,7 @@ namespace VIACinemaApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Status,Row,Column")] Seat seat)
+        public async Task<IActionResult> Create([Bind("Id,Row,Column,SeatNumber,MovieId")] Seat seat)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace VIACinemaApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Status,Row,Column")] Seat seat)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Row,Column, SeatNumber, MovieId")] Seat seat)
         {
             if (id != seat.Id)
             {

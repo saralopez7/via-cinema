@@ -35,7 +35,9 @@
                         @item.AvailableDate
                     </td>
                     <td>
-                        @item.AvailableSeats
+                        <a asp-controller="Seats" asp-action="Index" asp-route-id="@item.MovieId">
+                            @item.AvailableSeats
+                        </a>
                     </td>
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

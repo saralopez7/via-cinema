@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using VIACinemaApp.Models;
@@ -16,9 +17,11 @@ namespace VIACinemaApp.Controllers
         }
 
         // GET: Seats
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
-            return View(await _context.Seat.ToListAsync());
+            if (!String.IsNullOrEmpty(id))
+                return View(await _context.Seat.ToListAsync());
+            return View(await _context.Seat.Where(x => x.MovieId == Int32.Parse(id)).ToListAsync());
         }
 
         // GET: Seats/Details/5
@@ -50,7 +53,7 @@ namespace VIACinemaApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Row,Column,SeatNumber,MovieId")] Seat seat)
+        public async Task<IActionResult> Create([Bind("Id,Status,Row,Column")] Seat seat)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +85,7 @@ namespace VIACinemaApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Row,Column, SeatNumber, MovieId")] Seat seat)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Status,Row,Column")] Seat seat)
         {
             if (id != seat.Id)
             {

@@ -21,5 +21,7 @@ namespace VIACinemaApp.Models
         public DbSet<Seat> Seat { get; set; }
 
         public DbSet<Transaction> Transaction { get; set; }
+
+        public DbSet<User> User { get; set; }
     }
 }

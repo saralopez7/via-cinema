@@ -19,11 +19,13 @@
         list-style: none outside none;
         position: absolute;
     }
+
         #place li a {
             text-align: center;
             display: block;
-            padding-top:29%;
+            padding-top: 29%;
         }
+
             #place li a:hover {
                 text-decoration: none;
             }
@@ -53,17 +55,17 @@
 
 #seatDescription li {
     vertical-align: middle;
-    list-style: none outside ;
-    margin:10px;
+    list-style: none outside;
+    margin: 10px;
     padding: 20px;
     float: left;
 }
 
-#btnShowSelectedSeats, #btnShowAllSelected {
+#btnShowSelectedSeats, #btnShowAllSelected, #selectedSeats {
     background-color: #ddd;
-    border: 1px solid #ccc ;
+    border: 1px solid #ccc;
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
-    margin-top:10px;
+    margin-top: 10px;
 }

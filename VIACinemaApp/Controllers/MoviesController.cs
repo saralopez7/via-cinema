@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VIACinemaApp.Data;
-using VIACinemaApp.Models;
+using VIACinemaApp.Models.Movies;
 
 namespace VIACinemaApp.Controllers
 {

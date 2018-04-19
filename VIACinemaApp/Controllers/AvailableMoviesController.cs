@@ -5,16 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using VIACinemaApp.Data;
 using VIACinemaApp.Models;
+using VIACinemaApp.Models.Movies;
 
 namespace VIACinemaApp.Controllers
 {
     public class AvailableMoviesController : Controller
     {
-        private readonly VIACinemaAppContext _context;
+        private readonly ViaCinemaAppContext _context;
         private readonly int _totalNumberOfSeats = 75;
 
-        public AvailableMoviesController(VIACinemaAppContext context)
+        public AvailableMoviesController(ViaCinemaAppContext context)
         {
             _context = context;
         }

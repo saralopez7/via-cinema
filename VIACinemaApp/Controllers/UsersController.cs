@@ -3,14 +3,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using VIACinemaApp.Data;
+using VIACinemaApp.Models;
 
-namespace VIACinemaApp.Models.Movies
+namespace VIACinemaApp.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly VIACinemaAppContext _context;
+        private readonly ViaCinemaAppContext _context;
 
-        public UsersController(VIACinemaAppContext context)
+        public UsersController(ViaCinemaAppContext context)
         {
             _context = context;
         }

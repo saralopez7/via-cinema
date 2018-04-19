@@ -1,4 +1,4 @@
-﻿namespace VIACinemaApp.Models
+﻿namespace VIACinemaApp.Models.Movies
 {
     public enum Genre
     {

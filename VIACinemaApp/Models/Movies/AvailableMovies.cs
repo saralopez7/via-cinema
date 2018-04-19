@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VIACinemaApp.Models
+namespace VIACinemaApp.Models.Movies
 {
     public class AvailableMovies
     {

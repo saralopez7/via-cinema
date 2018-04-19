@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using VIACinemaApp.Models;
+using VIACinemaApp.Data;
+using VIACinemaApp.Models.Users;
 
 namespace VIACinemaApp
 {
@@ -24,10 +22,19 @@ namespace VIACinemaApp
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services
-            services.AddMvc();
+            services.AddDbContext<ViaCinemaAppContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ViaCinemaAppContext")));
 
-            services.AddDbContext<VIACinemaAppContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("VIACinemaAppContext")));
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.User.AllowedUserNameCharacters = "";
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<ViaCinemaAppContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

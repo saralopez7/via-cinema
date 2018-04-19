@@ -3,15 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using VIACinemaApp.Models;
+using VIACinemaApp.Data;
+using VIACinemaApp.Models.Movies;
 
 namespace VIACinemaApp.Controllers
 {
     public class SeatsController : Controller
     {
-        private readonly VIACinemaAppContext _context;
+        private readonly ViaCinemaAppContext _context;
 
-        public SeatsController(VIACinemaAppContext context)
+        public SeatsController(ViaCinemaAppContext context)
         {
             _context = context;
         }
@@ -43,8 +44,6 @@ namespace VIACinemaApp.Controllers
         }
 
         // POST: Seats/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Status,Row,Column")] Seat seat)
@@ -75,8 +74,6 @@ namespace VIACinemaApp.Controllers
         }
 
         // POST: Seats/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Status,Row,Column")] Seat seat)

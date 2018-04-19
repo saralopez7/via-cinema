@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using VIACinemaApp.Data;
 using VIACinemaApp.Models;
 
 namespace VIACinemaApp.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly VIACinemaAppContext _context;
+        private readonly ViaCinemaAppContext _context;
 
-        public MoviesController(VIACinemaAppContext context)
+        public MoviesController(ViaCinemaAppContext context)
         {
             _context = context;
         }
@@ -49,8 +47,6 @@ namespace VIACinemaApp.Controllers
         }
 
         // POST: Movies/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,MovieTitle,Duration,Genre,Director,ReleaseDate,Rating,Plot")] Movie movie)
@@ -82,8 +78,6 @@ namespace VIACinemaApp.Controllers
         }
 
         // POST: Movies/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,MovieTitle,Duration,Genre,Director,ReleaseDate,Rating,Plot")] Movie movie)

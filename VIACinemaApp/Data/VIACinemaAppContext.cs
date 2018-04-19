@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using VIACinemaApp.Models;
+using VIACinemaApp.Models.Movies;
 
-namespace VIACinemaApp.Models
+namespace VIACinemaApp.Data
 {
-    public class VIACinemaAppContext : DbContext
+    public class ViaCinemaAppContext : IdentityDbContext<User>
     {
-        public VIACinemaAppContext(DbContextOptions<VIACinemaAppContext> options)
+        public ViaCinemaAppContext(DbContextOptions<ViaCinemaAppContext> options)
             : base(options)
         {
         }

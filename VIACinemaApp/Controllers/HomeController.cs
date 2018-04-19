@@ -8,6 +8,7 @@ namespace VIACinemaApp.Controllers
     {
         public IActionResult Index()
         {
+            //HttpContext.User.Identity.Name;
             return View();
         }
 

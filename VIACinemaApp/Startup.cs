@@ -5,7 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using VIACinemaApp.Data;
-using VIACinemaApp.Models.Users;
+using VIACinemaApp.Models;
+using VIACinemaApp.Services;
 
 namespace VIACinemaApp
 {
@@ -22,17 +23,19 @@ namespace VIACinemaApp
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services
-            services.AddDbContext<ViaCinemaAppContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ViaCinemaAppContext")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
 
-            services.AddIdentity<User, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = true;
-                options.User.AllowedUserNameCharacters = "";
                 options.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<ViaCinemaAppContext>()
+            }).AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
         }

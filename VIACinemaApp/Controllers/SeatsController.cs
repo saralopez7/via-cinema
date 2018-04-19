@@ -10,9 +10,9 @@ namespace VIACinemaApp.Controllers
 {
     public class SeatsController : Controller
     {
-        private readonly ViaCinemaAppContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public SeatsController(ViaCinemaAppContext context)
+        public SeatsController(ApplicationDbContext context)
         {
             _context = context;
         }

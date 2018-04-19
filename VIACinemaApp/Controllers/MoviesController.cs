@@ -1,19 +1,17 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VIACinemaApp.Data;
-using VIACinemaApp.Models;
 using VIACinemaApp.Models.Movies;
 
 namespace VIACinemaApp.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly ViaCinemaAppContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public MoviesController(ViaCinemaAppContext context)
+        public MoviesController(ApplicationDbContext context)
         {
             _context = context;
         }

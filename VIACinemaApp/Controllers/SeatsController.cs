@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using VIACinemaApp.Data;
-using VIACinemaApp.Models;
+using VIACinemaApp.Models.Movies;
 
 namespace VIACinemaApp.Controllers
 {

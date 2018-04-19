@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using VIACinemaApp.Models;
 using VIACinemaApp.Models.Movies;
+using VIACinemaApp.Models.Users;
 
 namespace VIACinemaApp.Data
 {
@@ -19,7 +20,5 @@ namespace VIACinemaApp.Data
         public DbSet<Seat> Seat { get; set; }
 
         public DbSet<Transaction> Transaction { get; set; }
-
-        public DbSet<User> User { get; set; }
     }
 }

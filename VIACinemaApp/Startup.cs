@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using VIACinemaApp.Models;
-using Microsoft.AspNetCore.Identity;
 using VIACinemaApp.Data;
+using VIACinemaApp.Models.Users;
 
 namespace VIACinemaApp
 {
@@ -22,16 +22,19 @@ namespace VIACinemaApp
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services
-            services.AddMvc();
-
             services.AddDbContext<ViaCinemaAppContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ViaCinemaAppContext")));
 
-            // Add identity, adds cookies based authentication
-            // Add scoped classes for things like UserManager; SignInManager, PasswordHashers....
-            // Automatically adds the validates user from a cookie to the HttpContext.user
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<ViaCinemaAppContext>();
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.User.AllowedUserNameCharacters = "";
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<ViaCinemaAppContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

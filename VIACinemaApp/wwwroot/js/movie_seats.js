@@ -20,14 +20,6 @@ function showSeats() {
     $.each($('#place li.' + settings.bookedSeatCss + ' a, #place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
         str.push($(this).attr('title'));
     });
-    alert(str.join(','));
-}
 
-function showNewSeats() {
-    var str = [], item;
-    $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
-        item = $(this).attr('title');
-        str.push(item);
-    });
     alert(str.join(','));
 }

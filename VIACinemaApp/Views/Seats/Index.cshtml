@@ -96,7 +96,7 @@
     </ul>
 </div>
 <div style="clear:both;width:100%">
-    <input type="button" id="btnShowSelectedSeats" onCLick="showNewSeats()" value="Show Selected Seats" />
+    <input type="button" id="btnShowSelectedSeats" onclick="showNewSeats" value="Transaction" />
     <input type="button" id="btnShowAllSelected" onClick="showSeats()" value="Show All" />
 </div>
 
@@ -131,6 +131,24 @@
             }
         }
         document.getElementById("place").innerHTML = str.join('');
+    }
+
+    function showNewSeats() {
+        var str = [], item;
+        $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
+            item = $(this).attr('title');
+            str.push(item);
+        });
+
+        $.ajax({
+            type: 'post',
+            url: '/Seats/Create',
+            datatype: "json",
+            data: { id: str.toString() },
+            error: function (result) {
+                alert('Something went wrong: ' + result.statusText);
+            },
+        });
     }
 </script>
 

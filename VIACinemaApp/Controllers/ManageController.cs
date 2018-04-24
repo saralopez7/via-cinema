@@ -111,7 +111,7 @@ namespace VIACinemaApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index)); //****
+                return View(model);
             }
 
             var user = await _userManager.GetUserAsync(User);
@@ -521,7 +521,7 @@ namespace VIACinemaApp.Controllers
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("WebApplication1"),
+                _urlEncoder.Encode("WebApplication2"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

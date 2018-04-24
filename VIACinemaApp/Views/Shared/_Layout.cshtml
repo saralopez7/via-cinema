@@ -16,14 +16,21 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
             <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">VIA Cinema</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav ">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
                     <li>
                         <a asp-area="" asp-controller="AvailableMovies" asp-action="Index">Available Movies</a>
                     </li>

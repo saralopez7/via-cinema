@@ -14,15 +14,98 @@
     line-height: 1.4;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+.navbar-header {
+    margin-left: 5% !important;
 }
 
+.navbar-right {
+    margin-left: -10% !important;
+    margin-right: 5% !important;
+}
+
+/** LOGIN PAGE */
+#noAccount {
+    color: #888888;
+    font-size: small;
+}
+
+.signUpAsNewUser {
+    color: #3b5998;
+    font-weight: bold;
+}
+
+.centerDiv {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+}
+
+.loginButton {
+    display: inline-block;
+    width: 390px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+    .loginButton:hover {
+        cursor: pointer;
+        background-color: white;
+    }
+
+    .loginButton img {
+        display: inline-block;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .loginButton span {
+        display: inline-block;
+        width: 120px;
+        vertical-align: middle;
+    }
+
+#facebookButton {
+    background-color: #3b5998;
+    color: white;
+}
 /* QR code generator */
 #qrCode {
     margin: 15px;
 }
+
+input[type=email], input[type=password] {
+    -webkit-box-shadow: inset 0 0 0px 9999px white !important;
+    background-color: white !important;
+}
+    /**Remove yellow background from input*/
+    input[type=email], input[type=password]:-webkit-autofill,
+    input[type=email], input[type=password]:-webkit-autofill:hover,
+    input[type=email], input[type=password]:-webkit-autofill:focus,
+    input[type=email], input[type=password]:-webkit-autofill:active {
+        -webkit-box-shadow: inset 0 0 0px 9999px white !important;
+        background-color: white !important;
+    }
+
+.identificationBtn {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    background-color: #3b5998;
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+    .identificationBtn:hover {
+        background-color: #3b5998;
+        color: white;
+    }
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
@@ -31,5 +114,7 @@
         display: none;
     }
 
-
+    .navbar-header {
+        margin-left: 0% !important;
+    }
 }

@@ -6,9 +6,6 @@ namespace VIACinemaApp.Models.Movies
     {
         public int Id { get; set; }
 
-        public int Row { get; set; }
-        public int Column { get; set; }
-
         [ForeignKey("Id")]
         public int MovieId { get; set; }
 

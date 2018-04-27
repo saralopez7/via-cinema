@@ -20,12 +20,12 @@ namespace VIACinemaApp.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<Movie> Movie { get; set; }
+        public DbSet<Movie> Movies { get; set; }
 
-        public DbSet<AvailableMovies> AvailableMovies { get; set; }
+        public DbSet<AvailableMovie> AvailableMovies { get; set; }
 
-        public DbSet<Seat> Seat { get; set; }
+        public DbSet<Seat> Seats { get; set; }
 
-        public DbSet<Transaction> Transaction { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }

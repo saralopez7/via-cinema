@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using VIACinemaApp.Data;
 using VIACinemaApp.Models.Movies;
 
@@ -21,8 +23,8 @@ namespace VIACinemaApp.Controllers
         public async Task<IActionResult> Index(string id)
         {
             if (String.IsNullOrEmpty(id))
-                return View(await _context.Seat.ToListAsync());
-            return View(await _context.Seat.Where(x => x.MovieId == Int32.Parse(id)).ToListAsync());
+                return View(await _context.Seats.ToListAsync());
+            return View(await _context.Seats.Where(x => x.MovieId == Int32.Parse(id)).ToListAsync());
         }
 
         // GET: Seats/Details/5
@@ -33,27 +35,13 @@ namespace VIACinemaApp.Controllers
                 return NotFound();
             }
 
-            var seat = await _context.Seat
+            var seat = await _context.Seats
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (seat == null)
             {
                 return NotFound();
             }
 
-            return View(seat);
-        }
-
-        // POST: Seats/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Status,Row,Column")] Seat seat)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(seat);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
             return View(seat);
         }
 
@@ -65,7 +53,7 @@ namespace VIACinemaApp.Controllers
                 return NotFound();
             }
 
-            var seat = await _context.Seat.SingleOrDefaultAsync(m => m.Id == id);
+            var seat = await _context.Seats.SingleOrDefaultAsync(m => m.Id == id);
             if (seat == null)
             {
                 return NotFound();
@@ -106,38 +94,20 @@ namespace VIACinemaApp.Controllers
             return View(seat);
         }
 
-        // GET: Seats/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var seat = await _context.Seat
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (seat == null)
-            {
-                return NotFound();
-            }
-
-            return View(seat);
-        }
-
         // POST: Seats/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var seat = await _context.Seat.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Seat.Remove(seat);
+            var seat = await _context.Seats.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Seats.Remove(seat);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SeatExists(int id)
         {
-            return _context.Seat.Any(e => e.Id == id);
+            return _context.Seats.Any(e => e.Id == id);
         }
     }
 }

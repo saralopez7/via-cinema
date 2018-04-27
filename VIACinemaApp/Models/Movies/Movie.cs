@@ -8,7 +8,7 @@ namespace VIACinemaApp.Models.Movies
     {
         public int Id { get; set; }
 
-        [Display(Name = "Movie Title")]
+        [Display(Name = "Movies Title")]
         public String MovieTitle { get; set; }
 
         public double Duration { get; set; }

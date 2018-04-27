@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VIACinemaApp.Models.Movies
 {
-    public class AvailableMovies
+    public class AvailableMovie
     {
         public int Id { get; set; }
 

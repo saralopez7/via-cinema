@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -56,6 +57,16 @@ namespace VIACinemaApp
 
             services.AddMvc();
 
+            // Adds a default in-memory implementation of IDistributedCache.
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+            });
+
             services.Configure<MvcOptions>(options =>
             {
                 options.Filters.Add(new RequireHttpsAttribute());
@@ -66,6 +77,7 @@ namespace VIACinemaApp
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder();
+            app.UseSession();
 
             if (env.IsDevelopment())
             {

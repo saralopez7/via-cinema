@@ -25,15 +25,15 @@ namespace VIACinemaApp.Controllers
         public async Task<IActionResult> Index()
         {
             // Use LINQ to get list of movie titles.
-            IQueryable<string> titleQuery = from m in _context.Movie
+            IQueryable<string> titleQuery = from m in _context.Movies
                                             orderby m.MovieTitle
                                             select m.MovieTitle;
 
-            ICollection<AvailableMovies> availableMovies = _context.AvailableMovies.ToList();
+            ICollection<AvailableMovie> availableMovies = _context.AvailableMovies.ToList();
             foreach (var availableMovie in availableMovies)
             {
-                availableMovie.Movie = _context.Movie.FirstOrDefault(x => x.Id == availableMovie.MovieId);
-                availableMovie.AvailableSeats = _context.Seat.Count(x => x.MovieId == availableMovie.Id);
+                availableMovie.Movie = _context.Movies.FirstOrDefault(x => x.Id == availableMovie.MovieId);
+                availableMovie.AvailableSeats = _context.Seats.Count(x => x.MovieId == availableMovie.Id);
             }
 
             var movieGenreVm =
@@ -50,16 +50,16 @@ namespace VIACinemaApp.Controllers
         public async Task<IActionResult> GetMovies(string id)
         {
             // Use LINQ to get list of movie titles.
-            IQueryable<string> titleQuery = from m in _context.Movie
+            IQueryable<string> titleQuery = from m in _context.Movies
                                             orderby m.MovieTitle
                                             select m.MovieTitle;
 
-            ICollection<AvailableMovies> availableMovies = _context.AvailableMovies.ToList();
+            ICollection<AvailableMovie> availableMovies = _context.AvailableMovies.ToList();
             foreach (var availableMovie in availableMovies)
             {
-                availableMovie.Movie = _context.Movie.FirstOrDefault(x => x.Id == availableMovie.MovieId);
+                availableMovie.Movie = _context.Movies.FirstOrDefault(x => x.Id == availableMovie.MovieId);
                 availableMovie.AvailableSeats =
-                    _totalNumberOfSeats - _context.Seat.Count(x => x.MovieId == availableMovie.Id);
+                    _totalNumberOfSeats - _context.Seats.Count(x => x.MovieId == availableMovie.Id);
             }
 
             if (!String.IsNullOrEmpty(id))
@@ -79,6 +79,22 @@ namespace VIACinemaApp.Controllers
 
             ViewBag.AvailableMovies = movieGenreVm;
             return PartialView("GetMovies");
+        }
+
+        // GET: AvailableMovies/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movie = await _context.AvailableMovies
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            movie.Movie = _context.Movies.FirstOrDefault(x => x.Id == movie.MovieId);
+
+            return View(movie);
         }
     }
 }

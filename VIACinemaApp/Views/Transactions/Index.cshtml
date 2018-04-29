@@ -21,6 +21,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.SeatNumber)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -40,18 +43,30 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.SeatNumber)
                     </td>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </th>
                     <td>
-                        <a asp-controller="Transactions" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-controller="Transactions" asp-action="Delete" asp-route-id="@item.Id">
+                            <img class="deleteImg" src="images/Cart-remove-icon.png" alt="delete" />
+                        </a>
                     </td>
                 </tr>
+
             }
+            <tr></tr>
         </tbody>
     </table>
 
+    var totalPrice =
+        Model.Aggregate<TransactionViewModel, decimal>(0, (current, item) => current + item.Price);
+
+    <h4 id="totalPrice">Total price: <b>@totalPrice kr.</b></h4>
     <a asp-action="CompleteTransaction" class="checkOut" id="payment">Go to Payment</a>
 }
 else
 {
     <h2 id="emptyCart">Your cart is empty.</h2>
     <h3 id="movieCatalogue">Find out movie catalogue <a asp-controller="AvailableMovies" asp-action="Index">here</a> </h3>
+
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using VIACinemaApp.Models;
 using VIACinemaApp.Models.Transactions;
 
 namespace VIACinemaApp.Repositories.Interfaces
@@ -11,9 +8,11 @@ namespace VIACinemaApp.Repositories.Interfaces
     {
         Task<IEnumerable<TransactionViewModel>> GetTransactions(string userId);
 
+        void CompleteTransactions(string userId);
+
         Task<TransactionViewModel> GetTransaction(int? id);
 
-        Task<Transaction> RegisterSeats(Transaction transaction, int numberOfSeats);
+        Task<Transaction> RegisterSeats(Transaction transaction);
 
         void CreateTransaction(Transaction transaction);
 

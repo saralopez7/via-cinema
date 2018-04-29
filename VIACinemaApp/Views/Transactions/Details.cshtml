@@ -1,5 +1,5 @@
 ﻿@using VIACinemaApp.Models.Transactions
-@model VIACinemaApp.Models.Transactions.TransactionViewModel
+@model TransactionViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -35,6 +35,12 @@
             <a asp-controller="AvailableMovies" asp-action="Details" asp-route-id="@Model.Movie.Id">
                 @Html.DisplayFor(model => model.Movie.Movie.MovieTitle)
             </a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
         </dd>
     </dl>
     <div>

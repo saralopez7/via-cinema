@@ -17,6 +17,7 @@ namespace VIACinemaApp.Controllers
     {
         private readonly ITransactionsRepository _transactionRepository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly decimal _TICKET_PRICE = 89;
 
         public TransactionsController(ITransactionsRepository transactionRepository, UserManager<ApplicationUser> userManager)
         {
@@ -65,11 +66,11 @@ namespace VIACinemaApp.Controllers
                 SeatNumber = string.Join(",", json["seats"].ToObject<List<int>>().ToArray()),
                 StartTime = DateTime.Now,
                 Status = TransactionStatus.InProcess,
-                UserId = user.Id
+                UserId = user.Id,
+                Price = _TICKET_PRICE * json["seats"].ToObject<List<int>>().Count
             };
 
-            return Json(await Task.Run(() => _transactionRepository.RegisterSeats(
-                transaction, json["seats"].ToObject<List<int>>().Capacity)));
+            return Json(await Task.Run(() => _transactionRepository.RegisterSeats(transaction)));
         }
 
         // POST: Transactions/Create
@@ -146,9 +147,14 @@ namespace VIACinemaApp.Controllers
             return _transactionRepository.TransactionExists(id);
         }
 
-        public IActionResult CompleteTransaction()
+        public async Task<IActionResult> CompleteTransaction()
         {
-            throw new NotImplementedException();
+            //TODO: change transaction status when payment has been completed.
+            var user = await _userManager.GetUserAsync(User);
+
+            await Task.Run(() => _transactionRepository.CompleteTransactions(user.Id));
+
+            return RedirectToAction(nameof(Index)); // TODO: redirect to payment window.
         }
     }
 }

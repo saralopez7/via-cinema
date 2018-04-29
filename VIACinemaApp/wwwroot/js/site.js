@@ -10,15 +10,15 @@ function openDate() {
 
     //Create buttons
     dates.forEach(date => {
-        var button = document.createElement('button');
-        button.setAttribute('class', 'tablinks');
+        var button = document.createElement("button");
+        button.setAttribute("class", "tablinks");
         button.onclick = function () {
-            tabcontent = Array.prototype.slice.call(document.getElementsByClassName("tabcontent"));
-            links = Array.prototype.slice.call(document.getElementsByClassName("tablinks"));
+            var tabcontent = Array.prototype.slice.call(document.getElementsByClassName('tabcontent'));
+            var links = Array.prototype.slice.call(document.getElementsByClassName("tablinks"));
             // display only one tab content at a time and change className to change focus on selected item
             tabcontent.forEach(tab => { // display only one date content at a time
                 links.forEach(link => {
-                    if (link.innerHTML === tab.id) link.className = 'tablinks';
+                    if (link.innerHTML === tab.id) link.className = "tablinks";
                 });
                 tab.style.display = "none";
             });
@@ -90,12 +90,12 @@ function sendDataToController(date) {
 function getMovie() {
     var date = document.getElementById("date").value;
     $.ajax({
-        type: 'post',
-        url: '/AvailableMovies/GetMovies',
+        type: "post",
+        url: "/AvailableMovies/GetMovies",
         datatype: "json",
         data: { id: date },
         error: function (result) {
-            alert('Error: ' + result.statusText);
+            alert("Error: " + result.statusText);
         },
         success: function (response) {
             document.getElementById("movies").innerHTML = response;

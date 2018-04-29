@@ -27,7 +27,8 @@ namespace VIACinemaApp
                  cfg.CreateMap<Transaction, TransactionViewModel>()
                      .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                      .ForMember(dest => dest.SeatNumber, opt => opt.MapFrom(src => src.SeatNumber))
-                     .ForPath(dest => dest.Movie.Id, opt => opt.MapFrom(src => src.MovieId));
+                     .ForPath(dest => dest.Movie.Id, opt => opt.MapFrom(src => src.MovieId))
+                     .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
              });
 
             Instance = config.CreateMapper();

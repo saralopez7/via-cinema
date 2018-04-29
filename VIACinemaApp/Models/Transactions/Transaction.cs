@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using VIACinemaApp.Models.Transactions;
 
 namespace VIACinemaApp.Models.Transactions
 {
@@ -20,5 +18,7 @@ namespace VIACinemaApp.Models.Transactions
         public DateTime StartTime { get; set; }
 
         public TransactionStatus Status { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

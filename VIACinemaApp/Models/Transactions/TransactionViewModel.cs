@@ -11,5 +11,7 @@ namespace VIACinemaApp.Models.Transactions
         public string SeatNumber { get; set; }
 
         public int Id { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

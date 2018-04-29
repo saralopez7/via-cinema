@@ -24,7 +24,8 @@ namespace VIACinemaApp.Repositories
         public async Task<IEnumerable<TransactionViewModel>> GetTransactions(string userId)
         {
             var transactions = Mapper.Map<IEnumerable<TransactionViewModel>>(
-                await _context.Transactions.Where(x => x.UserId == userId).ToListAsync());
+                await _context.Transactions.Where(x => x.UserId == userId
+                                                       && x.Status == TransactionStatus.InProcess).ToListAsync());
 
             var transactionViewModels = transactions as TransactionViewModel[] ?? transactions.ToArray();
 
@@ -38,6 +39,19 @@ namespace VIACinemaApp.Repositories
             return transactionViewModels;
         }
 
+        public async void CompleteTransactions(string userId)
+        {
+            IEnumerable<Transaction> transactions =
+                await _context.Transactions.Where(x => x.UserId == userId).ToListAsync();
+
+            foreach (var transaction in transactions)
+            {
+                transaction.Status = TransactionStatus.Completed;
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<TransactionViewModel> GetTransaction(int? id)
         {
             var transaction = await _context.Transactions
@@ -48,17 +62,14 @@ namespace VIACinemaApp.Repositories
 
             if (availableMovie != null)
                 availableMovie.Movie = _context.Movies.FirstOrDefault(x => x.Id == availableMovie.MovieId);
-            var transactionVm = new TransactionViewModel
-            {
-                Movie = availableMovie,
-                SeatNumber = transaction.SeatNumber,
-                Id = transaction.Id
-            };
+
+            var transactionVm = Mapper.Map<TransactionViewModel>(transaction);
+            transactionVm.Movie = availableMovie;
 
             return transactionVm;
         }
 
-        public async Task<Transaction> RegisterSeats(Transaction transaction, int numberOfSeats)
+        public async Task<Transaction> RegisterSeats(Transaction transaction)
         {
             if (TransactionExists(transaction.SeatNumber, transaction.UserId, transaction.MovieId))
             {
@@ -66,6 +77,7 @@ namespace VIACinemaApp.Repositories
                     x.MovieId == transaction.MovieId && x.UserId == transaction.UserId &&
                     string.Equals(transaction.SeatNumber, transaction.SeatNumber, StringComparison.Ordinal));
             }
+
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
 
@@ -86,9 +98,7 @@ namespace VIACinemaApp.Repositories
 
         public async Task<TransactionViewModel> Delete(int? id)
         {
-            var transaction = Mapper.Map<TransactionViewModel>(await _context.Transactions
-                .SingleOrDefaultAsync(m => m.Id == id));
-            transaction.Movie = _context.AvailableMovies.FirstOrDefault(x => x.MovieId == transaction.Movie.Id);
+            var transaction = await GetTransaction(id);
 
             return transaction;
         }

@@ -91,6 +91,16 @@
     margin-left: 0 !important;
 }
 
+#totalPrice {
+    float: right;
+    margin-right: 19%;
+}
+
+.deleteImg {
+    width: 39px;
+    height: 39px;
+}
+
 #emptyCart {
     color: black;
     font-family: 'Helvetica Neue', sans-serif;

@@ -1,7 +1,7 @@
 ﻿var settings = {
     bookedSeatCss: "bookedSeat",
     selectingSeatCss: "selectingSeat"
-}
+};
 
 function setClick(className) {
     var btns = document.getElementsByClassName(className);

@@ -4,22 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VIACinemaApp.Data;
 using VIACinemaApp.Models.Movies;
+using VIACinemaApp.Repositories.Interfaces;
 
 namespace VIACinemaApp.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMoviesRepository _moviesRepository;
 
-        public MoviesController(ApplicationDbContext context)
+        public MoviesController(IMoviesRepository moviesRepository)
         {
-            _context = context;
+            _moviesRepository = moviesRepository;
         }
 
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Movies.ToListAsync());
+            return View(await _moviesRepository.GetMovies());
         }
 
         // GET: Movies/Details/5
@@ -30,8 +31,8 @@ namespace VIACinemaApp.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var movie = await _moviesRepository.GetMovie(id);
+
             if (movie == null)
             {
                 return NotFound();
@@ -51,16 +52,13 @@ namespace VIACinemaApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,MovieTitle,Duration,Genre,Director,ReleaseDate,Rating,Plot")] Movie movie)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(movie);
+            if (!ModelState.IsValid) return View(movie);
+
+            await Task.Run(() => _moviesRepository.CreateMovie(movie));
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Movies/Edit/5
+        // GET: Movies/EditSeat/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,7 +66,8 @@ namespace VIACinemaApp.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.Id == id);
+            var movie = await _moviesRepository.EditSeat(id);
+
             if (movie == null)
             {
                 return NotFound();
@@ -77,7 +76,7 @@ namespace VIACinemaApp.Controllers
             return View(movie);
         }
 
-        // POST: Movies/Edit/5
+        // POST: Movies/EditSeat/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,MovieTitle,Duration,Genre,Director,ReleaseDate,Rating,Plot")] Movie movie)
@@ -91,8 +90,7 @@ namespace VIACinemaApp.Controllers
             {
                 try
                 {
-                    _context.Update(movie);
-                    await _context.SaveChangesAsync();
+                    await Task.Run(() => _moviesRepository.EditSeat(id, movie));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -114,8 +112,8 @@ namespace VIACinemaApp.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var movie = await _moviesRepository.Delete(id);
+
             if (movie == null)
             {
                 return NotFound();
@@ -129,15 +127,14 @@ namespace VIACinemaApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Movies.Remove(movie);
-            await _context.SaveChangesAsync();
+            await _moviesRepository.DeleteConfirmed(id);
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieExists(int id)
         {
-            return _context.Movies.Any(e => e.Id == id);
+            return _moviesRepository.MovieExists(id);
         }
     }
 }

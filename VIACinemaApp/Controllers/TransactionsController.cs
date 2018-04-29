@@ -1,35 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
-using VIACinemaApp.Data;
 using VIACinemaApp.Models;
-using VIACinemaApp.Models.Movies;
+using VIACinemaApp.Models.Transactions;
+using VIACinemaApp.Repositories.Interfaces;
 
 namespace VIACinemaApp.Controllers
 {
     [Authorize]
     public class TransactionsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ITransactionsRepository _transactionRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public TransactionsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public TransactionsController(ITransactionsRepository transactionRepository, UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _transactionRepository = transactionRepository;
             _userManager = userManager;
         }
 
         // GET: Transactions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Transactions.ToListAsync());
+            var user = await _userManager.GetUserAsync(User);
+
+            return View(await _transactionRepository.GetTransactions(user.Id));
         }
 
         // GET: Transactions/Details/5
@@ -40,22 +40,7 @@ namespace VIACinemaApp.Controllers
                 return NotFound();
             }
 
-            var transaction = await _context.Transactions
-                .SingleOrDefaultAsync(m => m.Id == id);
-
-            AvailableMovie availableMovie =
-                _context.AvailableMovies.FirstOrDefault(x => x.Id == transaction.MovieId);
-
-            if (availableMovie != null)
-                availableMovie.Movie = _context.Movies.FirstOrDefault(x => x.Id == availableMovie.MovieId);
-            var transactionVm = new TransactionViewModel
-            {
-                Movie = availableMovie,
-                SeatNumber = transaction.SeatNumber,
-                Id = transaction.Id
-            };
-
-            return PartialView(transactionVm);
+            return PartialView(await _transactionRepository.GetTransaction(id));
         }
 
         // GET: Transactions/Create
@@ -66,7 +51,6 @@ namespace VIACinemaApp.Controllers
 
         // POST: Transactions/RegisterSeats
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> RegisterSeats(string seats)
         {
             if (!ModelState.IsValid) return RedirectToAction(nameof(Index));
@@ -84,15 +68,8 @@ namespace VIACinemaApp.Controllers
                 UserId = user.Id
             };
 
-            _context.Transactions.Add(transaction);
-            await _context.SaveChangesAsync();
-
-            var movie = _context.AvailableMovies.FirstOrDefault(x => x.Id == transaction.MovieId);
-            if (movie != null) movie.AvailableSeats = 75 - json["seats"].ToObject<List<int>>().Capacity;
-
-            await _context.SaveChangesAsync();
-
-            return Json(transaction);
+            return Json(await Task.Run(() => _transactionRepository.RegisterSeats(
+                transaction, json["seats"].ToObject<List<int>>().Capacity)));
         }
 
         // POST: Transactions/Create
@@ -102,14 +79,13 @@ namespace VIACinemaApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(transaction);
-                await _context.SaveChangesAsync();
+                await Task.Run(() => _transactionRepository.CreateTransaction(transaction));
                 return RedirectToAction(nameof(Index));
             }
             return View(transaction);
         }
 
-        // POST: Transactions/Edit/5
+        // POST: Transactions/EditSeat/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,SeatNumber,MovieId,UserId,StartTime,Status")] Transaction transaction)
@@ -119,27 +95,23 @@ namespace VIACinemaApp.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(transaction);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TransactionExists(transaction.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(transaction);
             }
-            return View(transaction);
+
+            try
+            {
+                await Task.Run(() => _transactionRepository.EditTransaction(id, transaction));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TransactionExists(transaction.Id))
+                {
+                    return NotFound();
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Transactions/Delete/5
@@ -150,8 +122,8 @@ namespace VIACinemaApp.Controllers
                 return NotFound();
             }
 
-            var transaction = await _context.Transactions
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var transaction = await _transactionRepository.Delete(id);
+
             if (transaction == null)
             {
                 return NotFound();
@@ -165,15 +137,18 @@ namespace VIACinemaApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var transaction = await _context.Transactions.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Transactions.Remove(transaction);
-            await _context.SaveChangesAsync();
+            await _transactionRepository.DeleteConfirmed(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool TransactionExists(int id)
         {
-            return _context.Transactions.Any(e => e.Id == id);
+            return _transactionRepository.TransactionExists(id);
+        }
+
+        public IActionResult CompleteTransaction()
+        {
+            throw new NotImplementedException();
         }
     }
 }

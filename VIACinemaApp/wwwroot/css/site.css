@@ -69,6 +69,53 @@
         vertical-align: middle;
     }
 
+.checkOut {
+    display: inline-block;
+    white-space: nowrap;
+    width: 190px;
+    border-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px #888888;
+    font-weight: bold;
+    color: #3b5998;
+    text-align: center;
+    padding: 10px;
+    margin-left: 7%;
+}
+
+    .checkOut:hover {
+        text-decoration: none;
+    }
+
+#payment {
+    margin-left: 0 !important;
+}
+
+#emptyCart {
+    color: black;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 80px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-align: center;
+}
+
+#movieCatalogue {
+    color: #383838;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 32px;
+    text-align: center;
+}
+
+    #movieCatalogue a {
+        color: #383838;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
 #facebookButton {
     background-color: #3b5998;
     color: white;

@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using VIACinemaApp.Data;
 using VIACinemaApp.Models;
+using VIACinemaApp.Repositories;
+using VIACinemaApp.Repositories.Interfaces;
 using VIACinemaApp.Services;
 
 namespace VIACinemaApp
@@ -54,6 +56,10 @@ namespace VIACinemaApp
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<ITransactionsRepository, TransactionsRepository>();
+            services.AddTransient<ISeatsRepository, SeatsRepository>();
+            services.AddTransient<IMoviesRepository, MoviesRepository>();
+            services.AddTransient<IAvailableMoviesRepository, AvailableMoviesRepository>();
 
             services.AddMvc();
 

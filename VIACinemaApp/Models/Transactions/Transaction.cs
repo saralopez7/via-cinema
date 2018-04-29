@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using VIACinemaApp.Models.Transactions;
 
-namespace VIACinemaApp.Models
+namespace VIACinemaApp.Models.Transactions
 {
     public class Transaction
     {

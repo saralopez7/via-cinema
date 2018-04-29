@@ -32,7 +32,7 @@ function openDate() {
         button.innerHTML = formatDate(date);
 
         if (i === 0) // set default open to the first button
-            button.setAttribute('id', 'defaultOpen');
+            button.setAttribute("id", "defaultOpen");
         i += 1;
         document.getElementById("tab").appendChild(button);
     });
@@ -43,9 +43,9 @@ document.getElementById("defaultOpen").click();
 
 function createTabContents(date) {
     var dateFormatted = formatDate(date);
-    var division = document.createElement('div');
-    division.setAttribute('class', 'tabcontent');
-    division.setAttribute('id', dateFormatted);
+    var division = document.createElement("div");
+    division.setAttribute("class", "tabcontent");
+    division.setAttribute("id", dateFormatted);
     document.getElementById("tabContainer").appendChild(division);
 }
 
@@ -69,17 +69,17 @@ function formatDate(date) {
     var weekdays = ["Sunday", "Monday", "Tuesday",
         "Wednesday", "Thursday", "Friday", "Saturday"];
 
-    return weekdays[date.getDay()] + ' ' + date.getDate() + ' ' + monthNames[date.getMonth()];
+    return weekdays[date.getDay()] + " " + date.getDate() + " " + monthNames[date.getMonth()];
 }
 
 function sendDataToController(date) {
     $.ajax({
-        type: 'post',
-        url: '/AvailableMovies/GetMovies',
+        type: "post",
+        url: "/AvailableMovies/GetMovies",
         datatype: "json",
         data: { id: formatDate(date) },
         error: function (result) {
-            alert('Something went wrong: ' + result.statusText);
+            alert("Something went wrong: " + result.statusText);
         },
         success: function (response) {
             document.getElementById(formatDate(date)).innerHTML = response;

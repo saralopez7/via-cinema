@@ -1,4 +1,4 @@
-﻿namespace VIACinemaApp.Models
+﻿namespace VIACinemaApp.Models.Transactions
 {
     public enum TransactionStatus
     {

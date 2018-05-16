@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VIACinemaApp.Data;
 using VIACinemaApp.Models;
+using VIACinemaApp.Models.Movies;
 using VIACinemaApp.Models.Payments;
 using VIACinemaApp.Repositories.Interfaces;
 using Transaction = VIACinemaApp.Models.Transactions.Transaction;
@@ -29,7 +31,6 @@ namespace VIACinemaApp.Repositories
             foreach (var transaction in transactions)
             {
                 transaction.Status = TransactionStatus.Completed;
-                _context.SaveChanges();
 
                 var transactionInPayment = new TransactionsInPayments()
                 {
@@ -38,6 +39,16 @@ namespace VIACinemaApp.Repositories
                 };
 
                 _context.TransactionsInPayment.Add(transactionInPayment);
+                var seats = transaction.SeatNumber.Split(new char[] { ',' }).ToList();
+
+                foreach (var seat in seats)
+                {
+                    _context.Seats.Add(new Seat()
+                    {
+                        MovieId = transaction.MovieId,
+                        SeatNumber = int.Parse(seat)
+                    });
+                }
                 _context.SaveChanges();
             }
 

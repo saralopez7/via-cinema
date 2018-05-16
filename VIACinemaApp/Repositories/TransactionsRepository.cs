@@ -1,35 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using PayPal;
 using VIACinemaApp.Data;
 using VIACinemaApp.Models.Transactions;
 using VIACinemaApp.Repositories.Interfaces;
-using PayPal.Api;
-using VIACinemaApp.Models.Movies;
-using Transaction = PayPal.Api.Transaction;
 
 namespace VIACinemaApp.Repositories
 {
     public class TransactionsRepository : ITransactionsRepository
     {
         private readonly ApplicationDbContext _context;
-        private Payment _payment;
-        private readonly APIContext _apiContext;
-        private readonly IOptions<Configuration> _config;
 
-        public TransactionsRepository(ApplicationDbContext context, IOptions<Configuration> config)
+        public TransactionsRepository(ApplicationDbContext context)
         {
-            _config = config;
             _context = context;
-            var clientId = _config.Value.ClientId;
-            var clientSecret = _config.Value.ClientSecret;
-            _apiContext = new APIContext(new OAuthTokenCredential(clientId, clientSecret).GetAccessToken());
         }
 
         public async Task<IEnumerable<TransactionViewModel>> GetTransactions(string userId)
@@ -67,7 +53,7 @@ namespace VIACinemaApp.Repositories
             return transactionVm;
         }
 
-        public async Task<Models.Transactions.Transaction> RegisterSeats(Models.Transactions.Transaction transaction)
+        public async Task<Transaction> RegisterSeats(Transaction transaction)
         {
             if (TransactionExists(transaction.SeatNumber, transaction.UserId, transaction.MovieId))
             {
@@ -82,13 +68,13 @@ namespace VIACinemaApp.Repositories
             return transaction;
         }
 
-        public async void CreateTransaction(Models.Transactions.Transaction transaction)
+        public async void CreateTransaction(Transaction transaction)
         {
             _context.Add(transaction);
             await _context.SaveChangesAsync();
         }
 
-        public async void EditTransaction(int id, Models.Transactions.Transaction transaction)
+        public async void EditTransaction(int id, Transaction transaction)
         {
             _context.Update(transaction);
             await _context.SaveChangesAsync();

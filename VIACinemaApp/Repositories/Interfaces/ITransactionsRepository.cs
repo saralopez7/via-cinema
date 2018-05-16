@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using PayPal.Api;
 using VIACinemaApp.Models.Transactions;
 using Transaction = VIACinemaApp.Models.Transactions.Transaction;
 

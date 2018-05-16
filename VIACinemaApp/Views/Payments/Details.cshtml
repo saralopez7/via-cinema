@@ -1,8 +1,16 @@
 ﻿@model VIACinemaApp.Models.Payments.PaymentViewModel
 
+<environment include="Development">
+
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/jquery.confetti.js" type="text/javascript "> </script>
+</environment>
 <div>
-    <h4>Payment Details!</h4>
     <hr />
+    <h1>Payment Completed!</h1>
+    <h3>Details</h3>
+
     <dl class="dl-horizontal">
         @foreach (var item in Model.Transactions)
         {
@@ -28,7 +36,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayNameFor(model => model.Payment.CredictCard)
+            @Html.DisplayFor(model => model.Payment.CredictCard)
         </dd>
 
         <dt>
@@ -36,7 +44,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayNameFor(model => model.Payment.OwnerName + " " + model.Payment.OwnerSurname)
+            @{
+                var fullName = Model.Payment.OwnerName + " " + Model.Payment.OwnerSurname;
+                @Html.DisplayFor(name => fullName)
+            }
         </dd>
     </dl>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="AvailableMovies" class="checkOut">Explore more</a>
 </div>

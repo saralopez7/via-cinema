@@ -62,6 +62,17 @@ namespace VIACinemaApp.Controllers
             return Json(await Task.Run(() => _transactionRepository.RegisterSeats(transaction)));
         }
 
+        // GET: Transactions/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView(await _transactionRepository.GetTransaction(id));
+        }
+
         // POST: Transactions/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

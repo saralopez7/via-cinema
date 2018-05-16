@@ -28,5 +28,8 @@ namespace VIACinemaApp.Data
         public DbSet<Seat> Seats { get; set; }
 
         public DbSet<Transaction> Transactions { get; set; }
+
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<TransactionsInPayments> TransactionsInPayment { get; set; }
     }
 }

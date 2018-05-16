@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using VIACinemaApp.Models.Movies;
 
 namespace VIACinemaApp.Models.Transactions
 {
@@ -20,5 +21,7 @@ namespace VIACinemaApp.Models.Transactions
         public TransactionStatus Status { get; set; }
 
         public decimal Price { get; set; }
+
+        public Movie Movie { get; set; }
     }
 }

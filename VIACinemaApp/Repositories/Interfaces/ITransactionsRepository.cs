@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using PayPal.Api;
 using VIACinemaApp.Models.Transactions;
+using Transaction = VIACinemaApp.Models.Transactions.Transaction;
 
 namespace VIACinemaApp.Repositories.Interfaces
 {
     public interface ITransactionsRepository
     {
         Task<IEnumerable<TransactionViewModel>> GetTransactions(string userId);
-
-        void CompleteTransactions(string userId);
 
         Task<TransactionViewModel> GetTransaction(int? id);
 

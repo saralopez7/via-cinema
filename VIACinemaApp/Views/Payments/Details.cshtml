@@ -1,0 +1,42 @@
+﻿@model VIACinemaApp.Models.Payments.PaymentViewModel
+
+<div>
+    <h4>Payment Details!</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @foreach (var item in Model.Transactions)
+        {
+            <dt>
+                Movie
+            </dt>
+            <dd>
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.Movie.Id">
+
+                    @item.Movie.MovieTitle
+                </a>
+            </dd>
+            <dt>
+                Seats
+            </dt>
+            <dd>
+                @item.SeatNumber
+            </dd>
+        }
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Payment.CredictCard)
+        </dt>
+
+        <dd>
+            @Html.DisplayNameFor(model => model.Payment.CredictCard)
+        </dd>
+
+        <dt>
+            Name and Surname
+        </dt>
+
+        <dd>
+            @Html.DisplayNameFor(model => model.Payment.OwnerName + " " + model.Payment.OwnerSurname)
+        </dd>
+    </dl>
+</div>

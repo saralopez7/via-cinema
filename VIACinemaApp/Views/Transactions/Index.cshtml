@@ -62,7 +62,7 @@
         Model.Aggregate<TransactionViewModel, decimal>(0, (current, item) => current + item.Price);
 
     <h4 id="totalPrice">Total price: <b>@totalPrice kr.</b></h4>
-    <a asp-action="CompleteTransaction" class="checkOut" id="payment">Go to Payment</a>
+    <a asp-action="Create" asp-controller="Payments" asp-route-id="Model" class="checkOut" id="payment">Go to Payment</a>
 }
 else
 {

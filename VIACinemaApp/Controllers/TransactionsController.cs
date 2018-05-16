@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using VIACinemaApp.Models;
 using VIACinemaApp.Models.Transactions;
 using VIACinemaApp.Repositories.Interfaces;
+using Transaction = VIACinemaApp.Models.Transactions.Transaction;
 
 namespace VIACinemaApp.Controllers
 {
@@ -17,7 +18,7 @@ namespace VIACinemaApp.Controllers
     {
         private readonly ITransactionsRepository _transactionRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly decimal _TICKET_PRICE = 89;
+        private const decimal TicketPrice = 89;
 
         public TransactionsController(ITransactionsRepository transactionRepository, UserManager<ApplicationUser> userManager)
         {
@@ -33,17 +34,6 @@ namespace VIACinemaApp.Controllers
             return View(await _transactionRepository.GetTransactions(user.Id));
         }
 
-        // GET: Transactions/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            return PartialView(await _transactionRepository.GetTransaction(id));
-        }
-
         // GET: Transactions/Create
         public IActionResult Create()
         {
@@ -57,7 +47,6 @@ namespace VIACinemaApp.Controllers
             if (!ModelState.IsValid) return RedirectToAction(nameof(Index));
 
             var user = await _userManager.GetUserAsync(User);
-
             var json = JObject.Parse(seats);
 
             var transaction = new Transaction
@@ -67,7 +56,7 @@ namespace VIACinemaApp.Controllers
                 StartTime = DateTime.Now,
                 Status = TransactionStatus.InProcess,
                 UserId = user.Id,
-                Price = _TICKET_PRICE * json["seats"].ToObject<List<int>>().Count
+                Price = TicketPrice * json["seats"].ToObject<List<int>>().Count
             };
 
             return Json(await Task.Run(() => _transactionRepository.RegisterSeats(transaction)));
@@ -145,16 +134,6 @@ namespace VIACinemaApp.Controllers
         private bool TransactionExists(int id)
         {
             return _transactionRepository.TransactionExists(id);
-        }
-
-        public async Task<IActionResult> CompleteTransaction()
-        {
-            //TODO: change transaction status when payment has been completed.
-            var user = await _userManager.GetUserAsync(User);
-
-            await Task.Run(() => _transactionRepository.CompleteTransactions(user.Id));
-
-            return RedirectToAction(nameof(Index)); // TODO: redirect to payment window.
         }
     }
 }

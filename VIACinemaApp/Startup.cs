@@ -60,6 +60,7 @@ namespace VIACinemaApp
             services.AddTransient<ISeatsRepository, SeatsRepository>();
             services.AddTransient<IMoviesRepository, MoviesRepository>();
             services.AddTransient<IAvailableMoviesRepository, AvailableMoviesRepository>();
+            services.AddTransient<IPaymentsRepository, PaymentsRepository>();
 
             services.AddMvc();
 

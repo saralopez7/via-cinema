@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VIACinemaApp.Models.Movies
 {
@@ -9,7 +8,7 @@ namespace VIACinemaApp.Models.Movies
         public int Id { get; set; }
 
         [Display(Name = "Movie")]
-        public String MovieTitle { get; set; }
+        public string MovieTitle { get; set; }
 
         public double Duration { get; set; }
         public Genre Genre { get; set; }

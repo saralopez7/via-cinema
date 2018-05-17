@@ -1,27 +1,34 @@
 ﻿var dates = new Array();
 
-openDate();
+createNextSevenDates();
 
-// Open selected date window
-function openDate() {
-    getDates();
+/**
+ * Create 7 tabs with the next seven dates to get the available movies for the next 7 days.
+ * Set on click event for each of the tabs.
+ * Get available movies for each of the tabs depending on the tab date.
+ */
+function createNextSevenDates() {
+    getNextSevenDates();
 
-    var i = 0;
+    var i = 0; // used to check for default button.
 
-    //Create buttons
+    //Create date tabs.
     dates.forEach(date => {
         var button = document.createElement("button");
         button.setAttribute("class", "tablinks");
+
         button.onclick = function () {
-            var tabcontent = Array.prototype.slice.call(document.getElementsByClassName('tabcontent'));
+            var tabcontent = Array.prototype.slice.call(document.getElementsByClassName("tabcontent"));
             var links = Array.prototype.slice.call(document.getElementsByClassName("tablinks"));
-            // display only one tab content at a time and change className to change focus on selected item
-            tabcontent.forEach(tab => { // display only one date content at a time
+            // display only one tab content at a time and change className to change focus on selected item.
+            tabcontent.forEach(tab => { // display only one date content at a time.
                 links.forEach(link => {
                     if (link.innerHTML === tab.id) link.className = "tablinks";
                 });
                 tab.style.display = "none";
             });
+
+            // Get available movies for the given tab date.
             sendDataToController(date);
 
             button.className += " active";
@@ -41,6 +48,10 @@ function openDate() {
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 
+/**
+ * Create tab content to place the available movies for the given date.
+ * @param {date} date
+ */
 function createTabContents(date) {
     var dateFormatted = formatDate(date);
     var division = document.createElement("div");
@@ -49,7 +60,11 @@ function createTabContents(date) {
     document.getElementById("tabContainer").appendChild(division);
 }
 
-function getDates() {
+/**
+ * Get next seven dates starting from current date.
+ * Used to display available movies for the next 7 days.
+ */
+function getNextSevenDates() {
     var startDate = new Date();
 
     for (var i = 0; i <= 7; i++) {
@@ -61,6 +76,10 @@ function getDates() {
     return dates;
 }
 
+/**
+ * Format tab date in the format: Weekday Day Month (Tuesday 12 April)
+ * @param {date} date
+ */
 function formatDate(date) {
     var monthNames = [
         "January", "February", "March", "April", "May", "June", "July",
@@ -72,6 +91,12 @@ function formatDate(date) {
     return weekdays[date.getDay()] + " " + date.getDate() + " " + monthNames[date.getMonth()];
 }
 
+/**
+ * Get available movies in a given date.
+ * Make POST request to the GetMovies action method from the AvailableMovies controller
+ * passing the parameter date as the request parameter.
+ * @param {date} date
+ */
 function sendDataToController(date) {
     $.ajax({
         type: "post",
@@ -82,12 +107,19 @@ function sendDataToController(date) {
             alert("Something went wrong: " + result.statusText);
         },
         success: function (response) {
+            // set the html of the date tab to the response returned by the controller
             document.getElementById(formatDate(date)).innerHTML = response;
         }
     });
 }
 
-function getMovie() {
+/**
+ * Get movie by date selected in the input element.
+ * Allows the user to query for available movies at any date.
+ * Make POST request to the GetMovies action method from the AvailableMovies controller
+ * passing the parameter date as the request parameter.
+ */
+function getMovieByDate() {
     var date = document.getElementById("date").value;
     $.ajax({
         type: "post",
@@ -98,6 +130,7 @@ function getMovie() {
             alert("Error: " + result.statusText);
         },
         success: function (response) {
+            // set the html of the movies div to the response returned by the controller
             document.getElementById("movies").innerHTML = response;
         }
     });

@@ -6,9 +6,16 @@ using VIACinemaApp.Models.Transactions;
 
 namespace VIACinemaApp.Data
 {
+    /// <inheritdoc />
+    /// <summary>
+    ///         The ApplicationDbContext object handles the task of connecting to the database and mapping objects
+    ///         (Movies, AvailableMovies, Payments, Transactions, Seats...) to database records.
+    ///         The database context is registered with the Dependency Injection container in the ConfigureServices
+    ///         method in the Startup.cs file.
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationDbContext(DbContextOptions options)
             : base(options)
         {
         }
@@ -16,9 +23,6 @@ namespace VIACinemaApp.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
 
         public DbSet<Movie> Movies { get; set; }

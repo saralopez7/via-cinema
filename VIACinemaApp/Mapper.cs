@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using VIACinemaApp.Models;
 using VIACinemaApp.Models.Movies;
 using VIACinemaApp.Models.Transactions;
 

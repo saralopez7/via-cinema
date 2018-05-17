@@ -74,12 +74,6 @@ namespace VIACinemaApp.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async void EditTransaction(int id, Transaction transaction)
-        {
-            _context.Update(transaction);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<TransactionViewModel> Delete(int? id)
         {
             var transaction = await GetTransaction(id);
@@ -92,11 +86,6 @@ namespace VIACinemaApp.Repositories
             var transaction = await _context.Transactions.SingleOrDefaultAsync(m => m.Id == id);
             _context.Transactions.Remove(transaction);
             await _context.SaveChangesAsync();
-        }
-
-        public bool TransactionExists(int id)
-        {
-            return _context.Transactions.Any(e => e.Id == id);
         }
 
         public bool TransactionExists(string seatNumbers, string userId, int movieId)

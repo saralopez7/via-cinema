@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
-@model IEnumerable<VIACinemaApp.Models.Movies.Seat>
+﻿@model IEnumerable<VIACinemaApp.Models.Movies.Seat>
 
 @{
     ViewData["Title"] = "Seats";
@@ -104,7 +103,7 @@
     </ul>
 </div>
 <div style="clear:both;width:100%">
-    <input type="button" id="btnShowSelectedSeats" onClick="showNewSeats()" value="Book Seat" />
+    <input type="button" id="btnShowSelectedSeats" onClick="registerSeats()" value="Book Seat" />
     <input type="button" id="btnShowAllSelected" onClick="showSeats()" value="Show All" />
 </div>
 
@@ -153,7 +152,7 @@
                     className += ' ' + settings.bookedSeatCss;
                 }
                 str.push('<li class="' + className + '"' +
-                    'style="top:' + (i * settings.seatHeight).toString() + 'px;left:' + (j * settings.seatWidth).toString() + 'px" onClick="setClick(\'' + className + '\')" />' +
+                    'style="top:' + (i * settings.seatHeight).toString() + 'px;left:' + (j * settings.seatWidth).toString() + 'px" onClick="selectSeat(\'' + className + '\')" />' +
                     '<a title="' + seatNo + '">' + seatNo + '</a>' +
                     '</li>');
             }

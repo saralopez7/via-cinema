@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using VIACinemaApp.Models;
 using VIACinemaApp.Models.Transactions;
@@ -13,12 +12,20 @@ using Transaction = VIACinemaApp.Models.Transactions.Transaction;
 
 namespace VIACinemaApp.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    ///     PaymentsController handles browser requests under the url: https://localhost:44387/Transactions
+    ///     Allow Authorized users (users logged in) to make transactions and later on payments for given transactions.
+    ///     The user will not be able to make a transaction unless he is logged it.
+    ///     If the user is not logged in he will be redirected to the Login controlelr.
+    ///     Once logged in, he will be redirected again to the payment Create action method in this controller.
+    /// </summary>
     [Authorize]
     public class TransactionsController : Controller
     {
         private readonly ITransactionsRepository _transactionRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        private const decimal TicketPrice = 89;
+        private const decimal TicketPrice = 89; // default ticket price per ticket.
 
         public TransactionsController(ITransactionsRepository transactionRepository, UserManager<ApplicationUser> userManager)
         {
@@ -26,7 +33,14 @@ namespace VIACinemaApp.Controllers
             _userManager = userManager;
         }
 
-        // GET: Transactions
+        /// <summary>
+        ///     Get all seats.
+        ///     Returns a View Result object rendereing the model received by the GetTransactions action method.
+        ///     (Model returned by GetTransactions action method contains only current user transactions)
+        ///     GET: Transactions
+        /// </summary>
+        /// <returns>View result for the Index view on the available transactions objects to be rendered.</returns>
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -34,13 +48,12 @@ namespace VIACinemaApp.Controllers
             return View(await _transactionRepository.GetTransactions(user.Id));
         }
 
-        // GET: Transactions/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Transactions/RegisterSeats
+        /// <summary>
+        ///     Register Seats to be bought and create transaction for the current user.
+        ///     POST: Transactions/RegisterSeats
+        /// </summary>
+        /// <param name="seats">String with the seats to be included in the transaction.</param>
+        /// <returns>Json result with the transaction created. </returns>
         [HttpPost]
         public async Task<IActionResult> RegisterSeats(string seats)
         {
@@ -62,7 +75,15 @@ namespace VIACinemaApp.Controllers
             return Json(await Task.Run(() => _transactionRepository.RegisterSeats(transaction)));
         }
 
-        // GET: Transactions/Details/5
+        /// <summary>
+        ///     Get information about a transaction by id passed as a route parameter.
+        ///     GET: Transactions/Details/5
+        ///     Used when checking out and redirecting the user to payment so he can review
+        ///     the transaction before completing the payment.
+        /// </summary>
+        /// <param name="id">id of the transaction which information is to be returned.</param>
+        /// <returns>View result for the Details view on a transaction object to be rendered.</returns>
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -74,6 +95,17 @@ namespace VIACinemaApp.Controllers
         }
 
         // POST: Transactions/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        /// <summary>
+        ///     Create a transaction record in the database.
+        ///     POST: Transactions/Create
+        /// </summary>
+        /// <param name="transaction">transaction object specified in the body of the POST request message.</param>
+        /// <returns>Index View after creating a new transaction record in the database.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,SeatNumber,MovieId,UserId,StartTime,Status")] Transaction transaction)
@@ -86,36 +118,14 @@ namespace VIACinemaApp.Controllers
             return View(transaction);
         }
 
-        // POST: Transactions/EditSeat/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SeatNumber,MovieId,UserId,StartTime,Status")] Transaction transaction)
-        {
-            if (id != transaction.Id)
-            {
-                return NotFound();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return View(transaction);
-            }
-
-            try
-            {
-                await Task.Run(() => _transactionRepository.EditTransaction(id, transaction));
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TransactionExists(transaction.Id))
-                {
-                    return NotFound();
-                }
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
-        // GET: Transactions/Delete/5
+        /// <summary>
+        ///     Delete transaction with the id specified in the route parameter.
+        ///     Use to delete a transaction from the "shopping cart"
+        ///     Transactions/Delete/5
+        /// </summary>
+        /// <param name="id">id of the transaction to be deleted.</param>
+        /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,11 +150,6 @@ namespace VIACinemaApp.Controllers
         {
             await _transactionRepository.DeleteConfirmed(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool TransactionExists(int id)
-        {
-            return _transactionRepository.TransactionExists(id);
         }
     }
 }

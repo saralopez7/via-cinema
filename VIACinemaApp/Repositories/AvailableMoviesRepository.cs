@@ -13,7 +13,7 @@ namespace VIACinemaApp.Repositories
     public class AvailableMoviesRepository : IAvailableMoviesRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly int _totalNumberOfSeats = 75;
+        private const int TotalNumberOfSeats = 75; // total number of seats in each movie room
 
         public AvailableMoviesRepository(ApplicationDbContext context)
         {
@@ -23,9 +23,9 @@ namespace VIACinemaApp.Repositories
         public async Task<MovieGenreViewModel> GetMovies()
         {
             // Use LINQ to get list of movie titles.
-            IQueryable<string> titleQuery = from m in _context.Movies
-                                            orderby m.MovieTitle
-                                            select m.MovieTitle;
+            var titleQuery = from m in _context.Movies
+                             orderby m.MovieTitle
+                             select m.MovieTitle;
 
             ICollection<AvailableMovie> availableMovies = _context.AvailableMovies.ToList();
             foreach (var availableMovie in availableMovies)
@@ -47,16 +47,16 @@ namespace VIACinemaApp.Repositories
         public async Task<MovieGenreViewModel> GetMovies(string id)
         {
             // Use LINQ to get list of movie titles.
-            IQueryable<string> titleQuery = from m in _context.Movies
-                                            orderby m.MovieTitle
-                                            select m.MovieTitle;
+            var titleQuery = from m in _context.Movies
+                             orderby m.MovieTitle
+                             select m.MovieTitle;
 
             ICollection<AvailableMovie> availableMovies = _context.AvailableMovies.ToList();
             foreach (var availableMovie in availableMovies)
             {
                 availableMovie.Movie = _context.Movies.FirstOrDefault(x => x.Id == availableMovie.MovieId);
                 availableMovie.AvailableSeats =
-                    _totalNumberOfSeats - _context.Seats.Count(x => x.MovieId == availableMovie.Id);
+                    TotalNumberOfSeats - _context.Seats.Count(x => x.MovieId == availableMovie.Id);
             }
 
             if (!string.IsNullOrEmpty(id))

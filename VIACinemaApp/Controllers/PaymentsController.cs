@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using VIACinemaApp.Models;
 using VIACinemaApp.Repositories.Interfaces;
 
 namespace VIACinemaApp.Controllers
 {
+    [Authorize]
     public class PaymentsController : Controller
     {
         private readonly IPaymentsRepository _paymentsRepository;
@@ -26,6 +28,7 @@ namespace VIACinemaApp.Controllers
 
             var payment = _paymentsRepository.PaymentDetails(id);
 
+            var userId = _userManager.GetUserId(User);
             if (payment == null)
             {
                 return NotFound();

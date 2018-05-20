@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using VIACinemaApp.Models;
 using VIACinemaApp.Models.Movies;
+using VIACinemaApp.Models.Payments;
 using VIACinemaApp.Models.Transactions;
 
 namespace VIACinemaApp.Data

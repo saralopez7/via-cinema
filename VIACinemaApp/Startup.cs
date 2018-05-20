@@ -56,7 +56,7 @@ namespace VIACinemaApp
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddScoped<ITransactionsRepository, TransactionsRepository>();
+            services.AddTransient<ITransactionsRepository, TransactionsRepository>();
             services.AddTransient<ISeatsRepository, SeatsRepository>();
             services.AddTransient<IMoviesRepository, MoviesRepository>();
             services.AddTransient<IAvailableMoviesRepository, AvailableMoviesRepository>();

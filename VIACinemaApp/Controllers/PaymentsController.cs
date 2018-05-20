@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using VIACinemaApp.Models;
+using VIACinemaApp.Models.Payments;
 using VIACinemaApp.Repositories.Interfaces;
 
 namespace VIACinemaApp.Controllers

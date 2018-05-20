@@ -98,19 +98,44 @@ function formatDate(date) {
  * @param {date} date
  */
 function sendDataToController(date) {
+    var loadingImage = document.getElementById("loading-image");
+    displayLoadingImage(loadingImage);
+
     $.ajax({
         type: "post",
         url: "/AvailableMovies/GetMovies",
         datatype: "json",
         data: { id: formatDate(date) },
         error: function (result) {
+            hideLoadingImage(loadingImage);
             alert("Something went wrong: " + result.statusText);
         },
         success: function (response) {
+            hideLoadingImage(loadingImage);
             // set the html of the date tab to the response returned by the controller
             document.getElementById(formatDate(date)).innerHTML = response;
         }
     });
+}
+
+/**
+ * Helper method used to hide loading Image when content has been returned or an error has ocurred.
+ * @param {string} loadingImage
+ */
+function hideLoadingImage(loadingImage) {
+    loadingImage.style.display = "none";
+    loadingImage.style.marginBottom = "0";
+    loadingImage.style.marginTop = "0";
+}
+
+/**
+ * Helper method used to diaplay loading Image before ajax POST request until ajax request has completed.
+ * @param { string } loadingImage
+ */
+function displayLoadingImage(loadingImage) {
+    loadingImage.style.display = "block";
+    loadingImage.style.marginBottom = "5%";
+    loadingImage.style.marginTop = "5%";
 }
 
 /**
@@ -121,15 +146,21 @@ function sendDataToController(date) {
  */
 function getMovieByDate() {
     var date = document.getElementById("date").value;
+    var loadingImage = document.getElementById("loading-image");
+    loadingImage.style.display = "block";
+    displayLoadingImage(loadingImage);
+
     $.ajax({
         type: "post",
         url: "/AvailableMovies/GetMovies",
         datatype: "json",
         data: { id: date },
         error: function (result) {
+            hideLoadingImage(loadingImage);
             alert("Error: " + result.statusText);
         },
         success: function (response) {
+            hideLoadingImage(loadingImage);
             // set the html of the movies div to the response returned by the controller
             document.getElementById("movies").innerHTML = response;
         }

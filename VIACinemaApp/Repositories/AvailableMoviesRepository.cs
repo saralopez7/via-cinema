@@ -27,12 +27,7 @@ namespace VIACinemaApp.Repositories
                              orderby m.MovieTitle
                              select m.MovieTitle;
 
-            ICollection<AvailableMovie> availableMovies = _context.AvailableMovies.ToList();
-            foreach (var availableMovie in availableMovies)
-            {
-                availableMovie.Movie = _context.Movies.FirstOrDefault(x => x.Id == availableMovie.MovieId);
-                availableMovie.AvailableSeats = _context.Seats.Count(x => x.MovieId == availableMovie.Id);
-            }
+            var availableMovies = Mapper.Map<ICollection<AvailableMovie>>(_context.AvailableMovies.ToList());
 
             var movieGenreVm =
                 new MovieGenreViewModel
